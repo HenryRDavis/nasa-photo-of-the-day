@@ -1,34 +1,31 @@
-import React from "react";
-import "./App.css";
-import axios from 'axios'
 
-// useEffect(() => {
-//   axios.get('https://api.nasa.gov/planetary/apod?api_key=kK5PvJj8yG0dvMl9GesPhOe0lRahN7pS5RC9GJfG')
-//   .then(res => {
-//     console.log(res)
-//   })
-//   .catch(err => {
-//     console.log(err)
-//   })
-//   .finally(() => {
-//   })
-// }, [])
+import React, { useState, useEffect } from "react";
+import Image from './pics'
+import Title from './title'
+import Bio from './thing'
+import Owner from './otherthing'
+import reactDOM from 'react-dom'
+import axios from 'axios'
+import {BASE_URL, API_KEY} from './exports'
+
+import "./App.css";
 
 function App() {
+  const [dataObj, setDataObj] = useState({})
+  useEffect(() => {
+    axios.get(`${BASE_URL}/apod?api_key=${API_KEY}`)
+      .then(info => setDataObj(info.data))
+      .catch(err => console.log(err, `ERROR`))
+  }, [])
+
   return (
-    <>
-<header>
-  <a href='#'></a>
-  <a href='#'></a>
-  <a href='#'></a>
-</header>
     <div className="App">
-      <p>
-        Read through the instructions in the README.md file to build your NASA
-        app! Have fun <span role="img" aria-label='go!'>:rocket:</span>!
-      </p>
+      <Title title={dataObj.title}/>
+      <Image imageUrl={dataObj.url} title={dataObj.title}/>
+      <Bio bio={dataObj.explanation}/>
+      <Owner name={dataObj.copyright}/>
     </div>
-    </>
   );
 }
+
 export default App;
