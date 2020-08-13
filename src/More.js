@@ -1,7 +1,6 @@
 
 import React from 'react';
 
-
 const Owner = (props) => {
   const { name } = props
   return (

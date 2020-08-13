@@ -1,29 +1,33 @@
 
 import React, { useState, useEffect } from "react";
-import Image from './pics'
-import Title from './title'
-import Bio from './thing'
-import Owner from './otherthing'
+import Image from './Pics'
+import Title from './Title'
+import Thing from './Thing'
+import More from './More'
 import reactDOM from 'react-dom'
 import axios from 'axios'
-import {BASE_URL, API_KEY} from './exports'
-
+import {BASE_URL, API_KEY} from './Exports'
 import "./App.css";
 
 function App() {
-  const [dataObj, setDataObj] = useState({})
+  const [props, setprops] = useState({})
+
   useEffect(() => {
     axios.get(`${BASE_URL}/apod?api_key=${API_KEY}`)
-      .then(info => setDataObj(info.data))
-      .catch(err => console.log(err, `ERROR`))
+      .then(res => 
+        setprops(res.data
+          ))
+      .catch(err => 
+        console.log(err, `And I oop`
+        ))
   }, [])
 
   return (
     <div className="App">
-      <Title title={dataObj.title}/>
-      <Image imageUrl={dataObj.url} title={dataObj.title}/>
-      <Bio bio={dataObj.explanation}/>
-      <Owner name={dataObj.copyright}/>
+      <Title title={props.title}/>
+      <Image imageUrl={props.url} title={props.title}/>
+      <Thing bio={props.explanation}/>
+      <More name={props.copyright}/>
     </div>
   );
 }
